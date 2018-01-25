@@ -6,14 +6,10 @@ form action="/friend_request" method="POST"
     input type="input" placeholder="Username" name="request_user"
     input type="submit" value="Send friend request"
 
-a.create-note href="/notes/create":button Create Note
+
 .notes
     - notes.each do |note|
         .note-card
-            p = note["content"]
-            .note-controls
-                form action="/notes/#{note["id"]}/delete" method="POST"
-                    input.button type="submit" value="Delete"
-                a.button href="/notes/#{note["id"]}/edit": button Edit
+            p = note.to_s
 
 a href='/' Go back.    
