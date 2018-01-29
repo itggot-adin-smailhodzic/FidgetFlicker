@@ -1,15 +1,20 @@
-p you are logged in lmao good job now get some friends idk
+p you are logged in! your unique identifier is: #{id}
 
-p nu när du ändå e här så kan du lika gärna fixa nåra vänner va? fyll i din kompis så kommer vi väl hitta honom/henne idk tho.
+p insert your friends unique ID to send him/her a friend request.
 
 form action="/friend_request" method="POST"
-    input type="input" placeholder="Username" name="request_user"
+    input type="input" placeholder="ID Ex. 39" name="request_user"
     input type="submit" value="Send friend request"
 
 
 .notes
     - notes.each do |note|
         .note-card
-            p = note.to_s
+            _note = note
+            p = _note
+
+        .values
+            - values.each do |value|
+                    p = value.to_i
 
 a href='/' Go back.    

@@ -70,7 +70,19 @@ class App < Sinatra::Base
 
 			result = db.execute("SELECT * FROM Relations WHERE User_1 OR User_2 = ?", [session[:id]])
 
-			slim(:menu, locals:{notes:result})
+			result_string = result.to_s
+
+			index = 0
+			values = []
+		  
+			result_string.each_char do |i|
+			  if i == '>'[0] then
+				values << index + 1
+			  end
+			  index += 1
+			end
+		  
+			slim(:menu, locals:{notes:result, values:values, id:id})
 		else
 			redirect('/')
 		end
