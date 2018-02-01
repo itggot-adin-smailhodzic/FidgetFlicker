@@ -6,15 +6,26 @@ form action="/friend_request" method="POST"
     input type="input" placeholder="ID Ex. 39" name="request_user"
     input type="submit" value="Send friend request"
 
+/* note[0] = User_1, note[1] = User_2, note[2] = Relation_State, note[3] = who sent the fukkin friend request?
 
 .notes
     - notes.each do |note|
         .note-card
-            _note = note
-            p = _note
+        - i = 0
+        - if note[3] == id
+            - if note[3] == note[0]
+                p Pending Friend request to #{note[1]}
+            - else
+                p Pending Friend request to #{note[0]}
+        - elsif note[3] != id
+            - if note[3] == note[0]
+                p Pending Friend request to you from #{note[0]}
+            - else
+                p Pending Friend request to you from #{note[1]}
 
-        .values
-            - values.each do |value|
-                    p = value.to_i
+        - while i < 4
+            p = note[i]
+            - i += 1
+
 
 a href='/' Go back.    

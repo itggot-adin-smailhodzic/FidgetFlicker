@@ -81,8 +81,10 @@ class App < Sinatra::Base
 			  end
 			  index += 1
 			end
+
+			var = 0 
 		  
-			slim(:menu, locals:{notes:result, values:values, id:id})
+			slim(:menu, locals:{notes:result, values:values, id:id, i:var})
 		else
 			redirect('/')
 		end
