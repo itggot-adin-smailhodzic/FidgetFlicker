@@ -16,14 +16,21 @@ form action="/friend_request" method="POST"
         - i = 0
 
         / You sent the request
-        - if note[3] == id
+        p = note
+        p = id
+        - if note[3] == id && note[2] == 0
+
             - if note[3] == note[0]
                 p Pending Friend request to #{note[1]}
-            - else
+
+            - elsif note[3] == note[1] && note[2] == 0
                 p Pending Friend request to #{note[0]}
+
+
         / You recieved the request
-        - elsif note[3] != id
-            - if note[3] == note[0]
+        - elsif note[3] != id && note[2] == 0
+
+            - if note[3] == note[0] && note[2] == 0
                 p Pending Friend request to you from #{note[0]}
 
                 form action="/accept_friend" method="POST"
@@ -35,7 +42,7 @@ form action="/friend_request" method="POST"
                     input type="submit" value="decline friendo"
 
 
-            - else
+            - elsif note[3] == note[1] && note[2] == 0
                 p Pending Friend request to you from #{note[1]}
 
                 form action="/accept_friend" method="POST"

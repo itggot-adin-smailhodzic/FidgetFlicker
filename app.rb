@@ -56,8 +56,6 @@ class App < Sinatra::Base
 
 	post '/password_recovery' do
 		
-		hello recover password idk dont wanna learn pony & host webbserver xddddddddddddddddddddddd nvm xdd
-
 	end
 
 	post '/accept_friend' do
@@ -66,6 +64,8 @@ class App < Sinatra::Base
 
 		db = SQLite3::Database.new('database.db')
 		db.execute("UPDATE Relations SET Relation_State = 1 WHERE User_1 OR User_2 = ?", [friend_id])
+
+		redirect('/profile/' + session[:id].to_s)
 
 
 	end
@@ -77,14 +77,12 @@ class App < Sinatra::Base
 		if id != session[:id]
 			redirect('/error')
 		end
-		
-		session[:id] = params[:id].to_i
 
 		if(session[:id])
 			db = SQLite3::Database.new('database.db')
 			db.results_as_hash = true
 
-			result = db.execute("SELECT * FROM Relations WHERE User_1 OR User_2 = ?", [session[:id]])
+			result = db.execute("SELECT User_1, User_2, Relation_State, User_Action FROM Relations WHERE User_1 OR User_2 = ?", [session[:id].to_i])
 
 			result_string = result.to_s
 
