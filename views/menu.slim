@@ -2,28 +2,51 @@ p you are logged in! your unique identifier is: #{id}
 
 p insert your friends unique ID to send him/her a friend request.
 
+p you cannot send friend requests to people that dont exist ok. xd
+
 form action="/friend_request" method="POST"
-    input type="input" placeholder="ID Ex. 39" name="request_user"
+    input type="number" placeholder="ID Ex. 39" name="request_user"
     input type="submit" value="Send friend request"
 
-/* note[0] = User_1, note[1] = User_2, note[2] = Relation_State, note[3] = who sent the fukkin friend request?
+/ note[0] = User_1, note[1] = User_2, note[2] = Relation_State, note[3] = who sent the fukkin friend request?
 
 .notes
     - notes.each do |note|
         .note-card
         - i = 0
+
+        / You sent the request
         - if note[3] == id
             - if note[3] == note[0]
                 p Pending Friend request to #{note[1]}
             - else
                 p Pending Friend request to #{note[0]}
+        / You recieved the request
         - elsif note[3] != id
             - if note[3] == note[0]
                 p Pending Friend request to you from #{note[0]}
+
+                form action="/accept_friend" method="POST"
+                    input type="hidden" name="user_id" value="#{note[0]}"
+                    input type="submit" value="Accept friend"
+
+                form action="/decline_friend" method="POST"
+                    input type="hidden" name="user_id" value="#{note[0]}"
+                    input type="submit" value="decline friendo"
+
+
             - else
                 p Pending Friend request to you from #{note[1]}
 
-        - while i < 4
+                form action="/accept_friend" method="POST"
+                    input type="hidden" name="user_id" value="#{note[1]}"
+                    input type="submit" value="Accept friend"
+
+                form action="/decline_friend" method="POST"
+                    input type="hidden" name="user_id" value="#{note[1]}"
+                    input type="submit" value="decline friendo"
+
+/        - while i < 4
             p = note[i]
             - i += 1
 

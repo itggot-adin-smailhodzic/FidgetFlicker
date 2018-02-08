@@ -54,6 +54,22 @@ class App < Sinatra::Base
 
 	end
 
+	post '/password_recovery' do
+		
+		hello recover password idk dont wanna learn pony & host webbserver xddddddddddddddddddddddd nvm xdd
+
+	end
+
+	post '/accept_friend' do
+
+		friend_id = params[:user_id]
+
+		db = SQLite3::Database.new('database.db')
+		db.execute("UPDATE Relations SET Relation_State = 1 WHERE User_1 OR User_2 = ?", [friend_id])
+
+
+	end
+
 	get '/profile/:id' do
 
 		id = params[:id].to_i
@@ -95,20 +111,41 @@ class App < Sinatra::Base
 
 		db = SQLite3::Database.new("database.db")
 
-		User_sender = session[:id].to_i
-		User_reciever = params[:request_user].to_i
+		User_sender = session[:id]
+		User_reciever = params[:request_user]
 
-		# 0 = Pending, 1 = Accepted, 2 = Denied, 3 = Blocked
+		User_reciever_compare = User_reciever.to_i
 
-		if User_sender < User_reciever
-			db.execute("INSERT INTO Relations(User_1,User_2,Relation_State,User_Action) VALUES(?,?,0,?)", [User_sender, User_reciever, User_sender])
-		elsif User_reciever < User_sender
-			db.execute("INSERT INTO Relations(User_1,User_2,Relation_State,User_Action) VALUES(?,?,0,?)", [User_reciever, User_sender, User_sender])
-		else
+		if User_reciever_compare.to_s != User_reciever.to_s
 			redirect('/error')
 		end
 
-		redirect('/profile/' + session[:id].to_s)
+		User_sender = User_sender.to_i
+		User_reciever = User_reciever.to_i
+
+		# 0 = Pending, 1 = Accepted, 2 = Denied, 3 = Blocked
+		
+		user_reciever_id_instance = db.execute("SELECT * FROM Users WHERE id = ?", [User_reciever])
+
+		if user_reciever_id_instance.empty? == false
+
+			if User_sender < User_reciever
+				db.execute("INSERT INTO Relations(User_1,User_2,Relation_State,User_Action) VALUES(?,?,0,?)", [User_sender, User_reciever, User_sender])
+			elsif User_reciever < User_sender
+				db.execute("INSERT INTO Relations(User_1,User_2,Relation_State,User_Action) VALUES(?,?,0,?)", [User_reciever, User_sender, User_sender])
+			else
+				redirect('/error')
+			end
+	
+			redirect('/profile/' + session[:id].to_s)
+
+		else
+
+			redirect('/error')
+
+		end
+
+	
 
 	end
 
